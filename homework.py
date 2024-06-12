@@ -51,30 +51,57 @@
 
 
 
-# Davaleba 13:
-lst = ["red", "Green", "white", "Black", "Pink", "yellow"]
+# # Davaleba 13:
+# lst = ["red", "Green", "white", "Black", "Pink", "yellow"]
 
-file_name = "output.txt"
+# file_name = "output.txt"
 
-with open(file_name, "w") as file:
-    for item in lst:
-        file.write(item + "\n")
+# with open(file_name, "w") as file:
+#     for item in lst:
+#         file.write(item + "\n")
 
-print("List contents have been saved to", file_name)
+# print("List contents have been saved to", file_name)
 
 
 
-def count_uppercase(file_name):
-    uppercase_count = 0
+# def count_uppercase(file_name):
+#     uppercase_count = 0
+
+#     with open(file_name, "r") as file:
+#         for line in file:
+#             line = line.strip()
+#             for item in line:
+#                 if item.isupper():
+#                     uppercase_count += 1
+#     return uppercase_count            
+    
+# file_name = "output.txt"
+# uppercase_count = count_uppercase(file_name)
+# print("მაღალ რეგისტრში დაწერილი სიტყვების რაოდენობა: ", uppercase_count)
+
+
+
+# Davaleba 14:
+import csv
+
+def calculate_average_scores(file_name):
+    scores = {}
 
     with open(file_name, "r") as file:
-        for line in file:
-            line = line.strip()
-            for item in line:
-                if item.isupper():
-                    uppercase_count += 1
-    return uppercase_count            
-    
-file_name = "output.txt"
-uppercase_count = count_uppercase(file_name)
-print("მაღალ რეგისტრში დაწერილი სიტყვების რაოდენობა: ", uppercase_count)
+        reader = csv.DictReader(file)
+        for row in reader:
+            full_name = row["FullName"]
+            score = int(row["Score"])
+            if full_name not in scores:
+                scores[full_name] = []
+            scores[full_name].append(score)
+
+    averages = {full_name: sum(scores)/len(scores) for full_name, scores in scores.items()}
+
+    return scores, averages
+
+file_name = 'student_scores.csv'
+scores, averages = calculate_average_scores(file_name)
+
+print(f"Student's scores: {scores}")
+print(f"Average scores: {averages}")
